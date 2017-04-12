@@ -1,29 +1,31 @@
 <template>
   <q-layout>
     <div slot="header" class="toolbar">
-      <button @click="$refs.drawer.open()">
+      <button class="hide-on-drawer-visible" @click="$refs.drawer.open()">
         <i>menu</i>
-      </button
+      </button>
       <q-toolbar-title :padding="0">
-        Quasar Framework v{{$q.version}}
+        {{ title }}
       </q-toolbar-title>
     </div>
 
-    <q-drawer ref="drawer" :swipe-only="true">
-      <div class="toolbar">
+    <q-drawer ref="drawer">
+      <div class="toolbar" style="background-color: white;">
         <q-toolbar-title>
-          Menu
+          <img src="../assets/img/kart-menu.png" width="200" height="200" alt="">
         </q-toolbar-title>
       </div>
 
+      <hr>
+
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="home" :to="{path: '/locais', exact: true}">
-          Local de Exame
+        <q-drawer-link icon="home" :to="{path: '/bateria', exact: true}">
+          Baterias
         </q-drawer-link>
         <q-drawer-link icon="settings" :to="{path: '/filtros', exact: true}">
           Filtros
         </q-drawer-link>
-        <q-drawer-link icon="exit_to_app" :to="{path: '/logout', exact: true}">
+        <q-drawer-link icon="exit_to_app" :to="{path: '/login', exact: true}">
           Sair
         </q-drawer-link>
       </div>
@@ -35,68 +37,22 @@
 </template>
 
 <script>
-var moveForce = 30
-var rotateForce = 40
-
-import { Utils } from 'quasar'
+import Auth from '../auth'
 
 export default {
+  name: 'index',
   data () {
     return {
-      moveX: 0,
-      moveY: 0,
-      rotateY: 0,
-      rotateX: 0
-    }
-  },
-  computed: {
-    position () {
-      let transform = `rotateX(${this.rotateX}deg) rotateY(${this.rotateY}deg)`
-      return {
-        top: this.moveY + 'px',
-        left: this.moveX + 'px',
-        '-webkit-transform': transform,
-        '-ms-transform': transform,
-        transform
-      }
+      title: 'Kart Ranking - PRODAM'
     }
   },
   methods: {
-    move (event) {
-      const {width, height} = Utils.dom.viewport()
-      const {top, left} = Utils.event.position(event)
-      const halfH = height / 2
-      const halfW = width / 2
-
-      this.moveX = (left - halfW) / halfW * -moveForce
-      this.moveY = (top - halfH) / halfH * -moveForce
-      this.rotateY = (left / width * rotateForce * 2) - rotateForce
-      this.rotateX = -((top / height * rotateForce * 2) - rotateForce)
+    logOut () {
+      Auth.signOut()
     }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      document.addEventListener('mousemove', this.move)
-      document.addEventListener('touchmove', this.move)
-    })
-  },
-  beforeDestroy () {
-    document.removeEventListener('mousemove', this.move)
-    document.removeEventListener('touchmove', this.move)
   }
 }
 </script>
 
-<style lang="styl">
-.logo-container
-  width 192px
-  height 268px
-  perspective 800px
-  position absolute
-  top 50%
-  left 50%
-  transform translateX(-50%) translateY(-50%)
-.logo
-  position absolute
-  transform-style preserve-3d
+<style>
 </style>

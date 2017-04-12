@@ -1,6 +1,12 @@
 <template>
   <div class="bateria-add">
     <h2>{{ title }}</h2>
+    <button class="primary push circular back-list" @click="$router.go(-1)">
+      <i>subdirectory_arrow_left</i>
+      <q-tooltip>
+        Voltar para listagem
+      </q-tooltip>
+    </button>
     <div class="container">
       <form novalidate @submit.stop.prevent="add">
           <div class="form-group">
@@ -256,5 +262,10 @@ h2 {
 
 .sem-participantes {
   margin-top: 100px;
+}
+
+.back-list {
+  margin-left: 60px;
+  margin-bottom: 30px;
 }
 </style>

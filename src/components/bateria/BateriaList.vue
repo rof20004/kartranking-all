@@ -1,32 +1,36 @@
 <template>
   <div class="bateria-list">
-    <div class="container">
+    <div class="layout-padding">
       <h2>Baterias</h2>
-      <div class="row">
-        <div class="table-responsive">
-          <table class="table table-hover" v-if="baterias.length > 0">
-            <thead>
-              <tr>
-                <th class="col-sm-6">Data</th>
-                <th class="col-sm-4">Hora</th>
-                <th class="col-sm-2">#</th>
-              </tr>
-            </thead>
+      <button class="orange push circular add-bateria" @click="$router.push({path: '/bateria/add'})">
+        <i>note_add</i>
+        <q-tooltip>
+          Cadastrar bateria
+        </q-tooltip>
+      </button>
+      <div class="list baterias-content" v-for="(bateria, index) in baterias" v-if="baterias.length > 0">
+        <div class="item multiple-lines has-secondary">
+          <div class="item-content">
+            <div>Data: {{ bateria['.key'] | data }}</div>
+            <div>Hora: {{ bateria['.key'] | hora }}</div>
+          </div>
+          <div class="item-secondary">
+            <i slot="target">
+              more_vert
 
-            <tbody>
-              <tr v-for="bateria in baterias">
-                <td>{{ bateria['.key'] | data }}</td>
-                <td>{{ bateria['.key'] | hora }}</td>
-                <td>
-                  <router-link class="btn btn-primary" :to="{ path: '/bateria/' + bateria['.key'] }">Visualizar</router-link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div v-else>
-            <h2>Sem registros</h2>
+              <q-popover ref="popover">
+                <div class="list">
+                  <div class="item item-link" @click="$refs.popover[index].close(), $router.push({ path: '/bateria/view/' + bateria['.key'] })">
+                    <div class="item-content">Detalhar</div>
+                  </div>
+                </div>
+              </q-popover>
+            </i>
           </div>
         </div>
+      </div>
+      <div v-else>
+        Sem Registros
       </div>
     </div>
   </div>
@@ -58,6 +62,13 @@ export default {
 <style scoped>
 h2 {
   text-align: center;
-  padding-bottom: 50px;
+}
+
+.add-bateria {
+  margin-bottom: 20px;
+}
+
+.list.baterias-content {
+  margin: 0 auto;
 }
 </style>

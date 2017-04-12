@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Auth from './auth'
 
 Vue.use(VueRouter)
 
@@ -22,23 +23,32 @@ export default new VueRouter({
 
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: load('Login'),
+      beforeEnter: onlyGuest
+    },
+    {
       path: '/',
       component: load('Index'),
+      beforeEnter: requireAuth,
       children: [
         {
-          path: '/',
+          path: '/bateria',
           name: 'bateria-list',
           component: load('bateria/BateriaList')
         },
         {
-          path: '/bateria',
+          path: '/bateria/add',
           name: 'bateria-add',
-          component: load('bateria/BateriaAdd')
+          component: load('bateria/BateriaAdd'),
+          beforeEnter: requireAuth
         },
         {
-          path: '/bateria/:bateriaId',
+          path: '/bateria/view/:bateriaId',
           name: 'bateria-view',
-          component: load('bateria/BateriaView')
+          component: load('bateria/BateriaView'),
+          beforeEnter: requireAuth
         }
       ]
     },
@@ -48,3 +58,31 @@ export default new VueRouter({
     } // Not found
   ]
 })
+
+function requireAuth (to, from, next) {
+  Auth.onAuthStateChanged((user) => {
+    if (!user) {
+      next({
+        path: '/login'
+      })
+      return
+    }
+    next()
+  }, (error) => {
+    console.error(error)
+  })
+}
+
+function onlyGuest (to, from, next) {
+  Auth.onAuthStateChanged((user) => {
+    if (user) {
+      next({
+        path: '/'
+      })
+      return
+    }
+    next()
+  }, (error) => {
+    console.error(error)
+  })
+}

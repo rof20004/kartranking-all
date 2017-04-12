@@ -1,36 +1,29 @@
 <template>
   <div class="bateria-details">
-    <h2>{{ title }}</h2>
-    <div class="table-responsive">
-      <table class="table table-hover" width="100%" v-if="baterias.length > 0">
-        <thead>
-          <tr>
-            <th>POS</th>
-            <th>KART</th>
-            <th>Nome</th>
-            <th>DA</th>
-            <th>DL</th>
-            <th>TMV</th>
-            <th>TT</th>
-            <th>TV</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="bateria in baterias">
-            <td>{{ bateria.pos }}</td>
-            <td>{{ bateria.kart }}</td>
-            <td>{{ bateria['.key'] }}</td>
-            <td>{{ bateria.da }}</td>
-            <td>{{ bateria.dl }}</td>
-            <td>{{ bateria.tmv }}</td>
-            <td>{{ bateria.tt }}</td>
-            <td>{{ bateria.tv }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="layout-padding">
+      <h2>Rank da Bateria</h2>
+      <button class="primary push circular back-list" @click="$router.go(-1)">
+        <i>subdirectory_arrow_left</i>
+        <q-tooltip>
+          Voltar para listagem
+        </q-tooltip>
+      </button>
+      <div class="list baterias-content" v-for="(bateria, index) in baterias" v-if="baterias.length > 0">
+        <div class="item multiple-lines">
+          <div class="item-content">
+            <div class="dados-bateria">Posição: <span class="valor-dados-bateria">{{ bateria.pos }}</span></div>
+            <div class="dados-bateria">Número do kart: <span class="valor-dados-bateria">{{ bateria.kart }}</span></div>
+            <div class="dados-bateria">Participante: <span class="valor-dados-bateria">{{ bateria['.key'] }}</span></div>
+            <div class="dados-bateria">Diferença para o próximo: <span class="valor-dados-bateria">{{ bateria.da }}</span></div>
+            <div class="dados-bateria">Diferença para o líder: <span class="valor-dados-bateria">{{ bateria.dl }}</span></div>
+            <div class="dados-bateria">Tempo da melhor volta: <span class="valor-dados-bateria">{{ bateria.tmv }}</span></div>
+            <div class="dados-bateria">Tempo total: <span class="valor-dados-bateria">{{ bateria.tt }}</span></div>
+            <div class="dados-bateria">Total de voltas: <span class="valor-dados-bateria">{{ bateria.tv }}</span></div>
+          </div>
+        </div>
+      </div>
       <div v-else>
-        <h2>Sem registros</h2>
+        Sem Registros
       </div>
     </div>
   </div>
@@ -41,11 +34,6 @@ import Database from '../../database'
 
 export default {
   name: 'bateria-details',
-  data () {
-    return {
-      title: 'Rank da Bateria'
-    }
-  },
   firebase () {
     return {
       baterias: Database.getBateriasByKey(this.$route.params.bateriaId).orderByChild('pos')
@@ -58,6 +46,18 @@ export default {
 <style scoped>
 h2 {
   text-align: center;
-  padding-bottom: 50px;
+}
+
+.back-list {
+  margin-bottom: 30px;
+}
+
+.dados-bateria {
+  padding: 5px;
+}
+
+.valor-dados-bateria {
+  color: blue !important;
+  font-style: italic;
 }
 </style>
