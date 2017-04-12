@@ -25,7 +25,7 @@
         <q-drawer-link icon="settings" :to="{path: '/filtros', exact: true}">
           Filtros
         </q-drawer-link>
-        <q-drawer-link icon="exit_to_app" :to="{path: '/login', exact: true}">
+        <q-drawer-link icon="exit_to_app" :to="{path: '', exact: true}">
           Sair
         </q-drawer-link>
       </div>

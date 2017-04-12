@@ -257,7 +257,6 @@ export default {
 <style scoped>
 h2 {
   text-align: center;
-  padding-bottom: 50px;
 }
 
 .sem-participantes {
