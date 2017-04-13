@@ -1,30 +1,31 @@
 <template>
   <div class="login">
-    <div class="container">
-      <div class="row">
-        <div class="card">
-            <div class="card-header">
-                <p>Kart Ranking Login</p>
-                <h6 class="card-title text-muted">Seja bem vindo ao sistema de rankeamento do Kart</h6>
-            </div>
+    <div class="layout-padding">
+      <div class="card">
+          <div class="card-title bg-primary text-white">
+              <h5>Kart Ranking Login</h5>
+          </div>
 
-            <div class="card-block">
-                <form novalidate @submit.stop.prevent="login">
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input id="email" type="text" class="form-control" v-model="email" :disabled="loading" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" v-model="password" :disabled="loading" />
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
-                      <span v-if="!loading">Entrar</span>
-                      <span v-if="loading" ><img src="../assets/img/ripple.svg" width="30"></span>
-                    </button>
-                </form>
-            </div>
-        </div>
+          <h6 class="card-title text-muted">Sistema de Rankeamento</h6>
+
+          <div class="card-content">
+              <form novalidate @submit.stop.prevent="login">
+                <div class="floating-label">
+                  <input id="email" type="text" class="full-width" v-model="email" :disabled="loading" required/>
+                  <label for="email">E-mail</label>
+                </div>
+                <div class="floating-label">
+                  <input id="password" type="password" class="full-width" v-model="password" :disabled="loading" required/>
+                  <label for="password">Password</label>
+                </div>
+                <div class="card-actions">
+                  <button type="submit" class="primary full-width" :disabled="loading">
+                    <span v-if="!loading">Entrar</span>
+                    <span v-if="loading" ><img src="../assets/img/ripple.svg" width="30"></span>
+                  </button>
+                </div>
+              </form>
+          </div>
       </div>
     </div>
   </div>
@@ -62,7 +63,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card {
-  margin: 140px auto;
+  width: 345px;
+  margin: 60px auto;
 }
 
 .card-header {
@@ -71,5 +73,9 @@ export default {
 
 .card-title {
     text-align: center
+}
+
+.card-actions {
+  padding: 22px 0;
 }
 </style>

@@ -14,6 +14,8 @@ import VueFire from 'vuefire'
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueFire)
 
+import 'toastr/build/toastr.css'
+
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({

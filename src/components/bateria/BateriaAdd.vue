@@ -1,126 +1,43 @@
 <template>
   <div class="bateria-add">
-    <h2>{{ title }}</h2>
-    <button class="primary push circular back-list" @click="$router.go(-1)">
-      <i>subdirectory_arrow_left</i>
-      <q-tooltip>
-        Voltar para listagem
-      </q-tooltip>
-    </button>
-    <div class="container">
-      <form novalidate @submit.stop.prevent="add">
-          <div class="form-group">
-            <div class="row">
-              <div class="col-3">
+    <div class="layout-padding">
+      <h2>Cadastrar Bateria</h2>
+      <button class="primary push circular back-list" @click="$router.go(-1)">
+        <i>subdirectory_arrow_left</i>
+        <q-tooltip>
+          Voltar para listagem
+        </q-tooltip>
+      </button>
+      <div class="card">
+        <div class="card-content">
+            <form novalidate @submit.stop.prevent="add">
+              <div class="floating-label">
+                <input type="text" v-model="bateria.dataHora" required/>
                 <label>Data do Evento</label>
-                <input type="text" class="form-control" v-model="bateria.dataHora" />
               </div>
-              <div class="col-2">
-                <label>&nbsp;</label><br>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Inserir Participante</button>
-              </div>
-              <div class="col-1">
-                <label>&nbsp;</label><br>
-                <button type="button" class="btn btn-success" :disabled="!isValid" @click="add">Finalizar Cadastro</button>
-              </div>
-            </div>
-          </div>
-      </form>
-
-      <div class="table-responsive" v-if="participantes.length > 0">
-        <table class="table table-hover" width="100%">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>DA</th>
-              <th>DL</th>
-              <th>KART</th>
-              <th>POS</th>
-              <th>TMV</th>
-              <th>TT</th>
-              <th>TV</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr v-for="participante in participantes" :key="participante.nome">
-              <td>{{ participante.nome }}</td>
-              <td>{{ participante.da }}</td>
-              <td>{{ participante.dl }}</td>
-              <td>{{ participante.kart }}</td>
-              <td>{{ participante.pos }}</td>
-              <td>{{ participante.tmv }}</td>
-              <td>{{ participante.tt }}</td>
-              <td>{{ participante.tv }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div v-else class="sem-participantes">
-        <h2>Sem participantes</h2>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Cadastro de Participantes</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form novalidate @submit.stop.prevent="createParticipante">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-4">
-                    <label>Nome</label>
-                    <input type="text" class="form-control" v-model="participante.nome" />
-                  </div>
-                  <div class="col-3">
-                    <label>DA</label>
-                    <input type="text" class="form-control" v-model="participante.da" />
-                  </div>
-                  <div class="col-3">
-                    <label>DL</label>
-                    <input type="text" class="form-control" v-model="participante.dl" />
-                  </div>
-                  <div class="col-2">
-                    <label>Kart</label>
-                    <input type="text" class="form-control" v-model="participante.kart" />
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-4">
-                    <label>Posição</label>
-                    <input type="text" class="form-control" v-model="participante.pos" />
-                  </div>
-                  <div class="col-3">
-                    <label>TM</label>
-                    <input type="text" class="form-control" v-model="participante.tmv" />
-                  </div>
-                  <div class="col-3">
-                    <label>TV</label>
-                    <input type="text" class="form-control" v-model="participante.tt" />
-                  </div>
-                  <div class="col-2">
-                    <label>TT</label>
-                    <input type="text" class="form-control" v-model="participante.tv" />
-                  </div>
-                </div>
+              <div class="card-actions">
+                <button type="button" class="primary small" @click="openDialogFormParticipante">Inserir Participante</button>
+                <button type="button" class="primary clear small" :disabled="!isValid" @click="add">Finalizar Cadastro</button>
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="clearParticipanteForm">Limpar</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click="addParticipante" :disabled="!isValidParticipante">Concluir</button>
+        </div>
+      </div>
+      <div class="list baterias-content" v-for="(participante, index) in participantes" v-if="participantes.length > 0">
+        <div class="item multiple-lines">
+          <div class="item-content">
+            <div class="dados-bateria">Posição: <span class="valor-dados-bateria">{{ participante.pos }}</span></div>
+            <div class="dados-bateria">Número do kart: <span class="valor-dados-bateria">{{ participante.kart }}</span></div>
+            <div class="dados-bateria">Participante: <span class="valor-dados-bateria">{{ participante.nome }}</span></div>
+            <div class="dados-bateria">Diferença para o próximo: <span class="valor-dados-bateria">{{ participante.da }}</span></div>
+            <div class="dados-bateria">Diferença para o líder: <span class="valor-dados-bateria">{{ participante.dl }}</span></div>
+            <div class="dados-bateria">Tempo da melhor volta: <span class="valor-dados-bateria">{{ participante.tmv }}</span></div>
+            <div class="dados-bateria">Tempo total: <span class="valor-dados-bateria">{{ participante.tt }}</span></div>
+            <div class="dados-bateria">Total de voltas: <span class="valor-dados-bateria">{{ participante.tv }}</span></div>
           </div>
         </div>
+      </div>
+      <div v-else>
+        Sem Registros
       </div>
     </div>
   </div>
@@ -129,6 +46,7 @@
 <script>
 import Database from '../../database'
 import toastr from 'toastr'
+import { Dialog } from 'quasar'
 
 export default {
   name: 'bateria-add',
@@ -191,7 +109,10 @@ export default {
             delete p.nome
             saveRef.child(key).set(p)
           })
+        } else {
+          Database.getBaterias().child(this.bateria.dataHora).set(true)
         }
+
         /**
          * Atualização do Ranking
          */
@@ -211,22 +132,10 @@ export default {
         this.participantes = []
       }
     },
-    addParticipante () {
-      let participante = {
-        nome: this.participante.nome,
-        da: this.participante.da,
-        dl: this.participante.dl,
-        kart: this.participante.kart,
-        pos: this.participante.pos,
-        tmv: this.participante.tmv,
-        tt: this.participante.tt,
-        tv: this.participante.tv
-      }
-
+    addParticipante (data) {
+      let participante = data
       this.participantes.push(participante)
-
       toastr.success('Participante cadastrado com sucesso')
-
       this.clearParticipanteForm()
     },
     clearParticipanteForm () {
@@ -248,6 +157,65 @@ export default {
         }
       }
       return newObj
+    },
+    openDialogFormParticipante () {
+      let vm = this
+      Dialog.create({
+        title: 'Cadastrar Participante',
+        form: {
+          nome: {
+            type: 'textbox',
+            label: 'Nome',
+            model: ''
+          },
+          da: {
+            type: 'textbox',
+            label: 'DA',
+            model: ''
+          },
+          dl: {
+            type: 'textbox',
+            label: 'DL',
+            model: ''
+          },
+          kart: {
+            type: 'textbox',
+            label: 'Kart',
+            model: ''
+          },
+          pos: {
+            type: 'textbox',
+            label: 'Posição',
+            model: ''
+          },
+          tmv: {
+            type: 'textbox',
+            label: 'Tempo da Melhor Volta',
+            model: ''
+          },
+          tt: {
+            type: 'textbox',
+            label: 'Tempo Total',
+            model: ''
+          },
+          tv: {
+            type: 'textbox',
+            label: 'Total de Voltas',
+            model: ''
+          }
+        },
+        buttons: [
+          'Cancelar',
+          {
+            label: 'Confirmar',
+            preventClose: true,
+            handler (data) {
+              let participante = vm.deepCopy(data)
+              vm.addParticipante(participante)
+            }
+          }
+        ]
+      })
     }
   }
 }
@@ -264,7 +232,19 @@ h2 {
 }
 
 .back-list {
-  margin-left: 60px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.card-actions {
+  padding: 22px 0;
+}
+
+.dados-bateria {
+  padding: 5px;
+}
+
+.valor-dados-bateria {
+  color: blue !important;
+  font-style: italic;
 }
 </style>

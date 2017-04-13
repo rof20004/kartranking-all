@@ -7,6 +7,10 @@
       <q-toolbar-title :padding="0">
         {{ title }}
       </q-toolbar-title>
+      <button @click="logOut">
+        <i>exit_to_app</i>
+        Sair
+      </button>
     </div>
 
     <q-drawer ref="drawer">
@@ -19,14 +23,11 @@
       <hr>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="home" :to="{path: '/bateria', exact: true}">
+        <q-drawer-link icon="edit_location" :to="{path: '/bateria', exact: true}">
           Baterias
         </q-drawer-link>
-        <q-drawer-link icon="settings" :to="{path: '/filtros', exact: true}">
-          Filtros
-        </q-drawer-link>
-        <q-drawer-link icon="exit_to_app" :to="{path: '', exact: true}">
-          Sair
+        <q-drawer-link icon="apps" :to="{path: '/filtros', exact: true}">
+          Ranking
         </q-drawer-link>
       </div>
     </q-drawer>
