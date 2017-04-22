@@ -26,7 +26,7 @@
         <q-drawer-link icon="edit_location" :to="{path: '/bateria', exact: true}">
           Baterias
         </q-drawer-link>
-        <q-drawer-link icon="apps" :to="{path: '/filtros', exact: true}">
+        <q-drawer-link icon="apps" :to="{path: '/ranking', exact: true}">
           Ranking
         </q-drawer-link>
       </div>

@@ -11,14 +11,18 @@
       <div class="list baterias-content" v-for="(bateria, index) in baterias" v-if="baterias.length > 0">
         <div class="item multiple-lines">
           <div class="item-content">
-            <div class="dados-bateria">Posição: <span class="valor-dados-bateria">{{ bateria.pos }}</span></div>
-            <div class="dados-bateria">Número do kart: <span class="valor-dados-bateria">{{ bateria.kart }}</span></div>
-            <div class="dados-bateria">Participante: <span class="valor-dados-bateria">{{ bateria['.key'] }}</span></div>
-            <div class="dados-bateria">Diferença para o próximo: <span class="valor-dados-bateria">{{ bateria.da }}</span></div>
-            <div class="dados-bateria">Diferença para o líder: <span class="valor-dados-bateria">{{ bateria.dl }}</span></div>
-            <div class="dados-bateria">Tempo da melhor volta: <span class="valor-dados-bateria">{{ bateria.tmv }}</span></div>
-            <div class="dados-bateria">Tempo total: <span class="valor-dados-bateria">{{ bateria.tt }}</span></div>
-            <div class="dados-bateria">Total de voltas: <span class="valor-dados-bateria">{{ bateria.tv }}</span></div>
+            <div class="row gutter sm-column">
+              <div class="width-1of3 dados-bateria">POS: {{ bateria.pos }}</div>
+              <div class="width-1of3 dados-bateria">KART: {{ bateria.kart }}</div>
+              <div class="width-2of3 dados-bateria">Participante: {{ bateria['.key'] }}</div>
+              <div class="width-1of3 dados-bateria">DA: {{ bateria.da }}</div>
+            </div>
+            <div class="row gutter sm-column">
+              <div class="width-1of3 dados-bateria">DL: {{ bateria.dl }}</div>
+              <div class="width-1of3 dados-bateria">TMV: {{ bateria.tmv }}</div>
+              <div class="width-2of3 dados-bateria">TT: {{ bateria.tt }}</div>
+              <div class="width-1of3 dados-bateria">TV: {{ bateria.tv }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,7 +40,7 @@ export default {
   name: 'bateria-details',
   firebase () {
     return {
-      baterias: Database.getBateriasByKey(this.$route.params.bateriaId).orderByChild('pos')
+      baterias: Database.getBateriasByKey(this.$route.params.bateriaId).orderByChild('pos').startAt(1)
     }
   }
 }
@@ -50,14 +54,5 @@ h2 {
 
 .back-list {
   margin-bottom: 30px;
-}
-
-.dados-bateria {
-  padding: 5px;
-}
-
-.valor-dados-bateria {
-  color: blue !important;
-  font-style: italic;
 }
 </style>

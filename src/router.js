@@ -49,13 +49,18 @@ export default new VueRouter({
           name: 'bateria-view',
           component: load('bateria/BateriaView'),
           beforeEnter: requireAuth
+        },
+        {
+          path: '/ranking',
+          name: 'ranking-list',
+          component: load('ranking/RankingList')
         }
       ]
     },
     {
       path: '*',
       component: load('Error404')
-    } // Not found
+    }
   ]
 })
 
